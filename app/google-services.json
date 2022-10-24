@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "176162133976",
+    "project_id": "gpm-cibertec",
+    "storage_bucket": "gpm-cibertec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176162133976:android:ca69c3758aceddae4404ad",
+        "android_client_info": {
+          "package_name": "com.cibertec.gpmcibertec"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176162133976-j48pjfup02ig63s2f603gjthqo1iavuf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDOUYHZzNyNlrV49QJ4XXPgfHLbAxVoWQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176162133976-j48pjfup02ig63s2f603gjthqo1iavuf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
