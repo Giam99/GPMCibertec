@@ -1,10 +1,14 @@
 package com.cibertec.gpmcibertec;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,7 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AgregarDocenteActivity extends AppCompatActivity {
+public class CreateDocFragment extends DialogFragment {
 
     //Declaracion de Variables
     Button btnAgregar;
@@ -25,21 +29,16 @@ public class AgregarDocenteActivity extends AppCompatActivity {
     private FirebaseFirestore mfirestore;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_agregar_docente);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_create_doc, container, false);
 
-        //Titulo del Layout
-        this.setTitle("Agregar Docente");
-        //Retornar metodo
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //Llamando a la base de datos
         mfirestore = FirebaseFirestore.getInstance();
 
-        codigo = (EditText) findViewById(R.id.txtCodigo);
-        nombres = (EditText) findViewById(R.id.txtNombres);
-        apellidos = (EditText) findViewById(R.id.txtApellidos);
-        btnAgregar = (Button) findViewById(R.id.btnAgregar);
+        codigo = (EditText) v.findViewById(R.id.txtCodigo);
+        nombres = (EditText) v.findViewById(R.id.txtNombres);
+        apellidos = (EditText) v.findViewById(R.id.txtApellidos);
+        btnAgregar = (Button) v.findViewById(R.id.btnAgregar);
 
         btnAgregar.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -49,15 +48,16 @@ public class AgregarDocenteActivity extends AppCompatActivity {
                 String apellidosDoc = apellidos.getText().toString().trim();
 
                 if(codigoDoc.isEmpty() && nombresDoc.isEmpty() && apellidosDoc.isEmpty()){
-                    Toast.makeText(getApplicationContext(),"Ingresar los Datos",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Ingresar los Datos",Toast.LENGTH_SHORT).show();
                 }else{
                     postDoc(codigoDoc,nombresDoc,apellidosDoc);
                 }
             }
         });
+
+        return v;
     }
 
-    //Metodo para Ingresar Datos de Docente a la BD
     private void postDoc(String codigoDoc, String nombresDoc, String apellidosDoc) {
         Map<String, Object> map = new HashMap<>();
         map.put("codigo", codigoDoc);
@@ -67,21 +67,14 @@ public class AgregarDocenteActivity extends AppCompatActivity {
         mfirestore.collection("docente").add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(getApplicationContext(),"Creado Exitosamente", Toast.LENGTH_SHORT).show();
-                finish();
+                Toast.makeText(getContext(),"Creado Exitosamente", Toast.LENGTH_SHORT).show();
+                getDialog().dismiss();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(),"Error al Ingresar Datos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Error al Ingresar Datos", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    //Flecha para retroceder
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return false;
     }
 }
